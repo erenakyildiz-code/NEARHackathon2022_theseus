@@ -8,7 +8,7 @@
 
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::collections::LookupMap;
-use near_sdk::{env, AccountId, Balance, near_bindgen, log};
+use near_sdk::{env, AccountId, Balance, near_bindgen};
 
 
 // Define the contract structure
@@ -16,13 +16,15 @@ use near_sdk::{env, AccountId, Balance, near_bindgen, log};
 #[derive(BorshDeserialize, BorshSerialize)]
 pub struct Contract {
     users: LookupMap<AccountId, User>,
-
+    start_period: u64
 }
 
 //User will have 2 properties, A mapping to see how much money they own, and an integer to see the last interaction with our contract.
+#[near_bindgen]
+#[derive(BorshDeserialize, BorshSerialize)]
 struct User {
-    period_balance: LookupMap<u16,Balance>,
-    latest_period: u16
+    period_balance: LookupMap<u64,Balance>,
+    latest_period: u64
 }
 
 
@@ -30,7 +32,8 @@ struct User {
 impl Default for Contract{
     fn default() -> Self{
         Self{
-            users: LookupMap::new(b"m")
+            users: LookupMap::new(b"m"),
+            start_period: env::block_timestamp()
         }
     }
 }
@@ -38,22 +41,8 @@ impl Default for Contract{
 // Implement the contract structure
 #[near_bindgen]
 impl Contract {
-    // Public method - returns the greeting saved, defaulting to DEFAULT_MESSAGE
-    pub fn get_greeting(&self) -> String {
-        return self.message.clone();
-    }
-
-    
-
-    // Public method - accepts a greeting, such as "howdy", and records it
-    pub fn set_greeting(&mut self, message: String) {
-        // Use env::log to record logs permanently to the blockchain!
-        log!("Saving greeting {}", message);
-        self.message = message;
-    }
-
     //baturay algorithm, we allow 1 for loop
-    fn optimize_user_balances(&mut self, AccountId user_account) {
+    fn optimize_user_balances(&mut self,  user_account: AccountId) {
 
     }
 
@@ -61,19 +50,27 @@ impl Contract {
     //todo: if user has account on contract, add balance to account, else create a new account and add balance to it.
     #[payable]
     pub fn deposit_balance(&mut self) {
-        let sender = env::predecessor_account_id();
-        let deposit_amount = env::
-        self.users.insert
+        let sender: AccountId = env::signer_account_id();
+        let deposit_amount: Balance = env::attached_deposit();
+        let current: u64 = (env::block_timestamp() - self.start_period.clone()) / 37;
+        let user_balance = self.get_user_balance( &sender).clone();
+        let mut map_struct = LookupMap::new(b"m");
+        let final_balance = deposit_amount + user_balance;
+        map_struct.insert(&current,&final_balance);
+        self.users.insert(&sender,&User {period_balance: map_struct,latest_period: current});
     }
-
-    pub fn get_user_balance(&mut self, AccountId user_account) {
+    pub fn get_user_balance(&mut self,  user_account: &AccountId) -> u128{
         match self.users.get(&user_account) {
-            Some(value) => {
-                let log_message = format!("Value from LookupMap is {:?}", value.clone());
-                env::log(log_message.as_bytes());
-                value
+            Some(value)  => {
+                let log_message = format!("Value from LookupMap is {:?}", value.period_balance.get(&0).clone());
+                match value.period_balance.get(&0) {
+                    Some(val) =>{
+                        val
+                    }
+                    None=> 0
+                }
             },
-            None => "not found".to_string()
+            None => 0
         }
     }
 }
