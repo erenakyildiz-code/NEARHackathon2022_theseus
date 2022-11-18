@@ -1,19 +1,7 @@
 /*!
-Fungible Token implementation with JSON serialization.
 NOTES:
-  - The maximum balance value is limited by U128 (2**128 - 1).
-  - JSON calls should pass U128 as a base-10 string. E.g. "100".
-  - The contract optimizes the inner trie structure by hashing account IDs. It will prevent some
-    abuse of deep tries. Shouldn't be an issue, once NEAR clients implement full hashing of keys.
-  - The contract tracks the change in storage before and after the call. If the storage increases,
-    the contract requires the caller of the contract to attach enough deposit to the function call
-    to cover the storage cost.
-    This is done to prevent a denial of service attack on the contract by taking all available storage.
-    If the storage decreases, the contract will issue a refund for the cost of the released storage.
-    The unused tokens from the attached deposit are also refunded, so it's safe to
-    attach more deposit than required.
-  - To prevent the deployed contract from being modified or deleted, it should not have any access
-    keys on its account.
+This contract is written by eren akyıldız.
+
 */
 use near_contract_standards::fungible_token::metadata::{
     FungibleTokenMetadata, FungibleTokenMetadataProvider, FT_METADATA_SPEC,
@@ -152,12 +140,12 @@ impl Contract {
         //calculate user purchase power
         //need a gate here to stop multiple pruchases
         let purchasing_power = self.get_user_balance(&env::predecessor_account_id()).clone() * self.get_tokens(&token_account).clone()/ self.get_total_balance().clone();
-        require!(env::attached_deposit() >= purchasing_power, "need to attach deposit equal to your purchasing power");
+        require!(env::attached_deposit() >= purchasing_power, "need to attach deposit equal or higher to your purchasing power, storage reasons.");
         //create tx
         match Promise::new(token_account.clone())
         .function_call("ft_transfer".to_owned(),format!("{{\"receiver_id\": \"{}\", \"amount\": \"{}\"}}",env::predecessor_account_id() ,purchasing_power).into(), 1, XCC_GAS )
         {Failed => {
-            log!(format!("Promise failed."));
+            log!(format!("Probably a registeration error, register yourself to the token or wait so i code it."));
             
         }
         NotReady => {

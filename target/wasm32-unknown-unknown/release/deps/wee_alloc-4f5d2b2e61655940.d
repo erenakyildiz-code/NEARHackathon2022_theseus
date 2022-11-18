@@ -1,0 +1,11 @@
+\\wsl$\Ubuntu\home\erenakyildiz\project\theseus\contract\target\wasm32-unknown-unknown\release\deps\wee_alloc-4f5d2b2e61655940.rmeta: C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\lib.rs C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\extra_assert.rs C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\const_init.rs C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\neighbors.rs C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\imp_wasm32.rs
+
+\\wsl$\Ubuntu\home\erenakyildiz\project\theseus\contract\target\wasm32-unknown-unknown\release\deps\libwee_alloc-4f5d2b2e61655940.rlib: C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\lib.rs C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\extra_assert.rs C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\const_init.rs C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\neighbors.rs C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\imp_wasm32.rs
+
+\\wsl$\Ubuntu\home\erenakyildiz\project\theseus\contract\target\wasm32-unknown-unknown\release\deps\wee_alloc-4f5d2b2e61655940.d: C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\lib.rs C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\extra_assert.rs C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\const_init.rs C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\neighbors.rs C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\imp_wasm32.rs
+
+C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\lib.rs:
+C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\extra_assert.rs:
+C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\const_init.rs:
+C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\neighbors.rs:
+C:\Users\eren9\.cargo\registry\src\github.com-1ecc6299db9ec823\wee_alloc-0.4.5\src\imp_wasm32.rs:

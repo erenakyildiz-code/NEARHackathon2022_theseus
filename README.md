@@ -1,48 +1,14 @@
-# Hello NEAR Contract
+# Theseus launchpad integration Contract
 
-The smart contract exposes two methods to enable storing and retrieving a greeting in the NEAR network.
-
-```rust
-const DEFAULT_GREETING: &str = "Hello";
-
-#[near_bindgen]
-#[derive(BorshDeserialize, BorshSerialize)]
-pub struct Contract {
-    greeting: String,
-}
-
-impl Default for Contract {
-    fn default() -> Self {
-        Self{greeting: DEFAULT_GREETING.to_string()}
-    }
-}
-
-#[near_bindgen]
-impl Contract {
-    // Public: Returns the stored greeting, defaulting to 'Hello'
-    pub fn get_greeting(&self) -> String {
-        return self.greeting.clone();
-    }
-
-    // Public: Takes a greeting, such as 'howdy', and records it
-    pub fn set_greeting(&mut self, greeting: String) {
-        // Record a log permanently to the blockchain!
-        log!("Saving greeting {}", greeting);
-        self.greeting = greeting;
-    }
-}
-```
-
-<br />
 
 # Quickstart
 
 1. Make sure you have installed [rust](https://rust.org/).
 2. Install the [`NEAR CLI`](https://github.com/near/near-cli#setup)
 
-<br />
 
 ## 1. Build and Deploy the Contract
+---
 You can automatically compile and deploy the contract in the NEAR testnet by running:
 
 ```bash
@@ -55,37 +21,45 @@ Once finished, check the `neardev/dev-account` file to find the address in which
 cat ./neardev/dev-account
 # e.g. dev-1659899566943-21539992274727
 ```
+## IMPORTANT
+- You need to take the dev account generated from deployment , put it in frontend's /src/index.js as the CONTRACT_NAME.
+- If you want to be admin, change the erentester.testnet accounts in lib.rs to yourtestname.testnet
 
-<br />
 
-## 2. Retrieve the Greeting
+## 2. Deposit balances (important)
+---
+From the frontend code, you can deposit and withdraw balances with the click of a button.
 
-`get_greeting` is a read-only method (aka `view` method).
+- If you skip this step you will not be able to buy any tokens when launch starts.
+ 
 
-`View` methods can be called for **free** by anyone, even people **without a NEAR account**!
-
-```bash
-# Use near-cli to get the greeting
-near view <dev-account> get_greeting
-```
-
-<br />
-
-## 3. Store a New Greeting
-`set_greeting` changes the contract's state, for which it is a `change` method.
-
-`Change` methods can only be invoked using a NEAR account, since the account needs to pay GAS for the transaction.
-
-```bash
-# Use near-cli to set a new greeting
-near call <dev-account> set_greeting '{"message":"howdy"}' --accountId <dev-account>
-```
-
-**Tip:** If you would like to call `set_greeting` using your own account, first login into NEAR using:
-
+## 3. Stake all balances and start a launch period
+---
+`stake(poolname)` stakes all NEAR currently deposited to the launchpad on to a chosen pool, if you are a node, you may choose your own pool's name. You need NEAR-cli to be able to run this command.
 ```bash
 # Use near-cli to login your NEAR account
 near login
 ```
+```bash
+#stake(pool)
+near call <SmartContractAccountID > stake '{"pool": "<YourPoolAccountID>"}' --accountId <YourAccountId>
+```
 
-and then use the logged account to sign the transaction: `--accountId <your-account>`.
+`start_launch(account_of_token, amount_to_sell)` Starts a new launch from the platform. before doing so you need to register the contract for the fungible token that you are launching, and send the contract the amount_to_sell amount of tokens beforehand.
+
+```bash
+
+# Use near-cli to mint some tokens and start a launch on our launchpad
+near call <fungibleTokenContract> storage_deposit '{"account_id": "<SmartContractAccountId>"}' --accountId <YourAccountId> --amount 0.00125
+
+near call <fungibleTokenContract> ft_mint '{"receiver_id": "<SmartContractAccountId>", "amount": "<amountToSell>"}' --deposit 0.1 --accountId <YourAccountId>
+
+near call <SmartContractAccountId> start_launch '{"account_of_token":"<account of a fungible token contract>", "amount_to_sell":"<amountToSell>" }' --accountId <YourAccountId>
+```
+
+**Tip:** use ft.examples.testnet as your first token, it is easier.
+## 4. Check the frontend to start purchasing the tokens
+
+Congrats, you have successfully started a token launch, hope you deposited some money beforehand, or you will have to do everything from scratch.
+You can now press purchase allocations button from the frontend to purchase all tokens that are allocated to you, currently every token is 1 satoshi(in NEAR). This can be changed later with the usage of oracles etc.
+
