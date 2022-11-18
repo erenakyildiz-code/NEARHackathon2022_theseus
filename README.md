@@ -62,7 +62,7 @@ near call <SmartContractAccountId> start_launch '{"account_of_token":"<account o
 
 Congrats, you have successfully started a token launch, hope you deposited some money beforehand, or you will have to do everything from scratch.
 You can now press purchase allocations button from the frontend to purchase all tokens that are allocated to you, currently every token is 1 satoshi(in NEAR). This can be changed later with the usage of oracles etc.
-
+# License
 Begin license text.
 Copyright 2022 eren akyıldız
 
